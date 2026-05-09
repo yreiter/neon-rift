@@ -296,16 +296,24 @@ async def init_userbot() -> None:
     if not HAS_TELETHON or not TELEGRAM_API_ID or not TELEGRAM_API_HASH:
         return
 
-    client = TelegramClient("userbot", TELEGRAM_API_ID, TELEGRAM_API_HASH)
-    await client.connect()
+    async def _connect() -> None:
+        global userbot
+        client = TelegramClient("userbot", TELEGRAM_API_ID, TELEGRAM_API_HASH)
+        await client.connect()
+        if await client.is_user_authorized():
+            userbot = client
+            me = await client.get_me()
+            logger.info("Userbot connected as %s", getattr(me, "first_name", "?"))
+        else:
+            await client.disconnect()
+            logger.info("Userbot not authenticated. Use /login to authenticate.")
 
-    if await client.is_user_authorized():
-        userbot = client
-        me = await client.get_me()
-        logger.info("Userbot connected as %s", getattr(me, "first_name", "?"))
-    else:
-        await client.disconnect()
-        logger.info("Userbot not authenticated. Use /login to authenticate.")
+    try:
+        await asyncio.wait_for(_connect(), timeout=10)
+    except asyncio.TimeoutError:
+        logger.warning("Userbot connection timed out — bot starting without userbot. Use /login later.")
+    except Exception as e:
+        logger.warning("Userbot init failed: %s — continuing without userbot.", e)
 
 
 async def _send_otp(update: Update, user_id: int, phone: str) -> None:
