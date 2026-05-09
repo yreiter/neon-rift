@@ -6,5 +6,6 @@ __pycache__/
 venv/
 *.session
 *.session-journal
+userbot.session
 *.log
 .otp_state.json
