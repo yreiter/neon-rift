@@ -82,7 +82,7 @@ if OPENAI_API_KEY:
 # ---------------------------------------------------------------------------
 
 conversation_history: dict[int, list[dict]] = defaultdict(list)
-user_model: dict[int, str] = defaultdict(lambda: "claude")
+user_model: dict[int, str] = defaultdict(lambda: "gpt")
 registered_groups: dict[str, int] = {}  # fallback: friendly_name -> bot-visible chat_id
 
 userbot: Optional["TelegramClient"] = None
