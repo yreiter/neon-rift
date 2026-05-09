@@ -1,0 +1,321 @@
+:root {
+  color-scheme: dark;
+  --ink: #f7fbff;
+  --muted: #9fb2c8;
+  --line: rgba(255, 255, 255, 0.16);
+  --panel: rgba(8, 16, 28, 0.76);
+  --cyan: #37f4ff;
+  --rose: #ff4f8b;
+  --gold: #ffd166;
+  --lime: #90ff72;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  overflow: hidden;
+  touch-action: none;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(55, 244, 255, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 88%, rgba(255, 79, 139, 0.18), transparent 30%),
+    linear-gradient(145deg, #06111f 0%, #101827 52%, #120b1d 100%);
+  color: var(--ink);
+  font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+.shell {
+  position: relative;
+  width: min(100vw, 1100px);
+  padding: 22px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  max-height: min(72vh, 680px);
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #07111f;
+  box-shadow:
+    0 24px 90px rgba(0, 0, 0, 0.48),
+    inset 0 0 60px rgba(55, 244, 255, 0.08);
+}
+
+.hud,
+.panel,
+.start-button,
+.touch-controls {
+  position: absolute;
+  z-index: 2;
+}
+
+.hud {
+  inset: 38px 38px auto 38px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hud div,
+.panel,
+.start-button,
+.touch-key,
+.dash-button {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.hud div {
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.hud span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.hud strong {
+  display: block;
+  margin-top: 2px;
+  font-size: clamp(1rem, 2vw, 1.55rem);
+}
+
+.panel {
+  inset: auto 38px 38px 38px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 4.2rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+p {
+  max-width: 46rem;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 8px;
+  min-width: 180px;
+}
+
+kbd {
+  min-width: 48px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  font: 700 0.82rem/1 "Segoe UI", Arial, sans-serif;
+  text-align: center;
+}
+
+.start-button {
+  top: 50%;
+  left: 50%;
+  min-width: 190px;
+  min-height: 54px;
+  translate: -50% -50%;
+  border-radius: 8px;
+  color: #06111f;
+  cursor: pointer;
+  font: 800 1rem/1 "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0;
+  background: linear-gradient(135deg, var(--cyan), var(--lime));
+  transition:
+    transform 160ms ease,
+    filter 160ms ease,
+    opacity 160ms ease;
+}
+
+button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.start-button.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.touch-controls {
+  inset: auto 38px 150px 38px;
+  display: none;
+  align-items: end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.move-pad {
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: 8px;
+}
+
+.touch-key,
+.dash-button {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  color: var(--ink);
+  cursor: pointer;
+  font: 800 1rem/1 "Segoe UI", Arial, sans-serif;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-key {
+  background: rgba(247, 251, 255, 0.1);
+}
+
+.touch-key:active,
+.touch-key.is-pressed,
+.dash-button:active,
+.dash-button.is-pressed {
+  border-color: rgba(55, 244, 255, 0.72);
+  background: rgba(55, 244, 255, 0.2);
+}
+
+.touch-key.up {
+  grid-area: up;
+}
+
+.touch-key.right {
+  grid-area: right;
+}
+
+.touch-key.down {
+  grid-area: down;
+}
+
+.touch-key.left {
+  grid-area: left;
+}
+
+.dash-button {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 79, 139, 0.82), rgba(255, 209, 102, 0.86));
+  color: #06111f;
+}
+
+@media (max-width: 720px) {
+  body {
+    overflow: hidden;
+  }
+
+  .shell {
+    width: 100vw;
+    height: 100svh;
+    padding: 8px;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+
+  .hud {
+    inset: 22px 22px auto 22px;
+    gap: 6px;
+  }
+
+  .hud div {
+    padding: 8px;
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .controls {
+    min-width: 0;
+    justify-content: start;
+  }
+
+  .touch-controls {
+    inset: auto 18px 22px 18px;
+    display: flex;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .shell {
+    width: 100vw;
+    height: 100svh;
+    padding: 8px;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+
+  .panel {
+    display: none;
+  }
+
+  .touch-controls {
+    display: flex;
+    inset: auto 18px 22px 18px;
+  }
+}
+
+@media (max-height: 620px) {
+  .panel {
+    display: none;
+  }
+
+  .touch-controls {
+    inset-block-end: 22px;
+  }
+}

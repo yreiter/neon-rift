@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Rift</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hud" aria-label="נתוני משחק">
+        <div>
+          <span>ניקוד</span>
+          <strong id="score">0</strong>
+        </div>
+        <div>
+          <span>רצף</span>
+          <strong id="combo">x1</strong>
+        </div>
+        <div>
+          <span>מגן</span>
+          <strong id="shield">100%</strong>
+        </div>
+      </section>
+
+      <canvas id="game" width="960" height="600" aria-label="Neon Rift game canvas"></canvas>
+
+      <section class="touch-controls" aria-label="פקדי מגע">
+        <div class="move-pad" aria-label="תנועה">
+          <button class="touch-key up" type="button" data-key="arrowup" aria-label="למעלה">↑</button>
+          <button class="touch-key right" type="button" data-key="arrowright" aria-label="ימינה">→</button>
+          <button class="touch-key down" type="button" data-key="arrowdown" aria-label="למטה">↓</button>
+          <button class="touch-key left" type="button" data-key="arrowleft" aria-label="שמאלה">←</button>
+        </div>
+        <button class="dash-button" type="button" data-dash aria-label="דש">Dash</button>
+      </section>
+
+      <section class="panel">
+        <div>
+          <h1>Neon Rift</h1>
+          <p>אספו ליבות אנרגיה, התחמקו מהציידים ושברו את השיא לפני שהקרע נסגר.</p>
+        </div>
+        <div class="controls">
+          <kbd>WASD</kbd>
+          <kbd>חצים</kbd>
+          <kbd>Space</kbd>
+        </div>
+      </section>
+
+      <button id="start" class="start-button" type="button">התחל משחק</button>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>
