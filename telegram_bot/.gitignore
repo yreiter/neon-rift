@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.session
+*.session-journal
+userbot.session
+*.log
+.otp_state.json
